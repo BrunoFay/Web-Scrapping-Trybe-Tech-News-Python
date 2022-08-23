@@ -1,4 +1,5 @@
 import requests
+from parsel import Selector
 # Requisito 1
 
 
@@ -10,7 +11,7 @@ def fetch(url):
             headers={"user-agent": "Fake user-agent"})
         status = response.status_code
         if status == 200:
-            return response.json()
+            return response
         else:
             return None
     except requests.ReadTimeout:
@@ -20,9 +21,16 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(text=html_content.text)
+    link_selector = '''#main > div >
+             div > div > article > div
+             > div:nth-child(2) > header > h2 > a::attr(href)'''
+    links = selector.css(link_selector).getall()
+    return links
 
 
 # Requisito 3
+
 
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
@@ -31,9 +39,12 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
-    print(html_content)
 
 
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+
+
+""" html = fetch('https://blog.betrybe.com')
+scrape_novidades(html) """
