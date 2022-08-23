@@ -34,6 +34,13 @@ def scrape_novidades(html_content):
 
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(text=html_content.text)
+    next_page_selector = '''#main > div > nav > div > a.next.page-numbers'''
+    next_page_link = selector.css(next_page_selector).get()
+    if(next_page_link):
+        return next_page_link
+    else:
+        return None
 
 
 # Requisito 4
