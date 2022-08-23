@@ -1,5 +1,6 @@
 import requests
 from parsel import Selector
+from time import sleep
 # Requisito 1
 
 
@@ -7,15 +8,17 @@ def fetch(url):
     try:
         response = requests.get(
             url,
-            timeout=3,
-            headers={"user-agent": "Fake user-agent"})
+            headers={"user-agent": "Fake user-agent"},
+            timeout=3
+        )
+        sleep(1)
         status = response.status_code
-        if status == 200:
-            return response.text
-        else:
+        if status != 200:
             return None
     except requests.ReadTimeout:
         return None
+    else:
+        return response.text
 
 
 # Requisito 2
@@ -38,7 +41,7 @@ def scrape_novidades(html_content):
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(html_content)
-    next_page_selector = '''#main > div > nav > div > a.next.page-numbers'''
+    next_page_selector = '''a.next.page-numbers::attr(href)'''
     next_page_link = selector.css(next_page_selector).get()
     if(next_page_link):
         return next_page_link
@@ -51,16 +54,14 @@ def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(html_content)
     writer_selector = '''#page > div > div > div > section >
-        div.entry-header-inner.cs-bg-dark >
-        ul > li.meta-author > span.author > a::text'''
+        div.entry-header-inner.cs-bg-dark > ul >
+        li.meta-author > span.author > a::text'''
     writer = selector.css(writer_selector).get()
-
-    url_selector = '''#page > div > div > div > section >
-        div.entry-header-inner.cs-bg-dark > div > div > a::attr(href)'''
+    url_selector = '''link[rel='canonical']::attr(href)'''
     url = selector.css(url_selector).get()
 
-    title_selector = '''#page > div > div > div >
-        section > div.entry-header-inner.cs-bg-dark > h1::text'''
+    title_selector = '''#page > div > div > div > section >
+        div.entry-header-inner.cs-bg-dark > h1::text'''
     title = selector.css(title_selector).get()
 
     timestamp_selector = '''#page > div > div > div > section >
@@ -70,23 +71,23 @@ def scrape_noticia(html_content):
     comments_selector = '#comments > h5::text'
     com_count = selector.css(comments_selector).re_first(r"\d*\.\d{2}") or 0
 
-    summary_selector = '''#main > article > div > div >
-        div > p:nth-child(2)::text'''
-    summary = selector.css(summary_selector).get()
+    summary_selector = '''.entry-content > p:first-of-type *::text'''
+    summary = ''.join(selector.css(summary_selector).getall())
 
     category_selector = '''#page > div > div > div > section >
         div.entry-header-inner.cs-bg-dark > div > div > a > span.label::text'''
     category = selector.css(category_selector).get()
+
     tags_selector = 'a[rel="tag"]::text'
     tags = selector.css(tags_selector).getall() or []
 
     page_infos = {
         'url': url,
-        'title': title,
+        'title': title.replace(u'\xa0', u''),
         'timestamp': timestamp,
         'writer': writer,
         'comments_count': com_count,
-        'summary': summary,
+        'summary': summary.strip().replace(u'\xa0', u''),
         'tags': tags,
         'category': category
     }
