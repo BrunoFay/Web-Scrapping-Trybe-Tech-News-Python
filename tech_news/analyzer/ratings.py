@@ -1,12 +1,16 @@
-from tech_news.database import find_top_5_news, find_news
+from tech_news.database import find_news
 
 
 # Requisito 10
 def top_5_news():
     """Seu código deve vir aqui"""
-    news_sorted = find_top_5_news()
-    news = [(new['title'], new['url']) for new in news_sorted]
-    return news
+    all_news = sorted(
+        find_news(),
+        key=lambda x: x['comments_count'],
+        reverse=True
+        )
+    news_sorted = [(new['title'], new['url']) for new in all_news]
+    return news_sorted[:5]
 
 
 # Requisito 11
