@@ -97,8 +97,33 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+    count = 0
+    notices_to_db = []
+    URL = 'https://blog.betrybe.com/'
+    while len(notices_to_db) < amount:
+        page_content = fetch(URL)
+        notices_list = scrape_novidades(page_content)
+        max_news_in_page = len(notices_list)
+
+        if (len(notices_to_db) >= max_news_in_page):
+            remaining_news = amount - len(notices_to_db)
+            notices_list = notices_list[:remaining_news]
+
+        if len(notices_list) >= amount:
+            notices_list = notices_list[:amount]
+
+        for notice in notices_list:
+            if(len(notices_list) == count & amount > len(notices_list)):
+                URL = scrape_next_page_link(URL)
+            notice_content_page = fetch(notice)
+            notice_dic = scrape_noticia(notice_content_page)
+            notices_to_db.append(notice_dic)
+            count += 1
+    news = notices_to_db
+    print(len(news))
 
 
+#news = notices_to_db[:amount]
 """  html='https://blog.betrybe.com/carreira/prazo-para-sacar-fgts/'
      conteudo=fetch(html)
  scrape_noticia(conteudo) """
