@@ -31,6 +31,14 @@ def find_news():
     return list(db.news.find({}, {"_id": False}))
 
 
+def find_top_5_news():
+    return list(db.news
+                .find()
+                .sort([("comments_count", -1)])
+                .limit(5)
+                )
+
+
 def search_news(query):
     return list(db.news.find(query))
 
