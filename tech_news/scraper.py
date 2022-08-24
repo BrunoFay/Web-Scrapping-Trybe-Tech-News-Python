@@ -113,11 +113,7 @@ def get_tech_news(amount):
     while len(news) < amount:
         page_content = fetch(URL)
         notices_list = notices_list_validate(news, amount, page_content)
-        max_news_in_page = len(notices_list_validate(
-            news,
-            amount,
-            page_content
-            ))
+        max_news_in_page = len(notices_list)
         for notice in notices_list:
             notice_content_page = fetch(notice)
             notice_dic = scrape_noticia(notice_content_page)
