@@ -68,10 +68,13 @@ Select one of the following options:
   Inside a virtual environment, to interact with the menu, type the command:
   
   `tech-news-analyzer`
-<hr/>
-<hr/>
+
+
 <br/>
 <hr/>
+<br/>
+
+
 # Tech News [PORTUGUESE]
 As notícias a serem raspadas estarão disponíveis no _Blog da Trybe_: https://blog.betrybe.com.
   Essas notícias serão ser salvas no banco de dados utilizando as funções python no módulo `database.py`
