@@ -15,31 +15,29 @@ def check_if_option_is_valid(option):
         return
 
 
-def option_even(option):
-    if option == '0':
-        number = int(input("Digite quantas notícias serão buscadas:"))
-        return get_tech_news(number)
-    elif option == '2':
-        date = input("Digite a data no formato aaaa-mm-dd:")
-        return search_by_date(date)
-    elif option == '4':
-        category = input("Digite a categoria:")
-        return search_by_category(category)
-    elif option == '6':
-        return top_5_categories()
+def option_0():
+    number = int(input("Digite quantas notícias serão buscadas:"))
+    return get_tech_news(number)
 
 
-def option_odd(option):
-    if option == '1':
-        title = input("Digite o título:")
-        return search_by_title(title)
+def option_1():
+    title = input("Digite o título:")
+    return search_by_title(title)
 
-    elif option == '3':
-        tag = input("Digite a tag:")
-        return search_by_tag(tag)
 
-    elif option == '5':
-        return top_5_news()
+def option_2():
+    date = input("Digite a data no formato aaaa-mm-dd:")
+    return search_by_date(date)
+
+
+def option_3():
+    tag = input("Digite a tag:")
+    return search_by_tag(tag)
+
+
+def option_4():
+    category = input("Digite a categoria:")
+    return search_by_category(category)
 
 
 def analyzer_menu():
@@ -55,6 +53,17 @@ def analyzer_menu():
         '6 - Listar top 5 categorias;\n',
         '7 - Sair.'
     ]
+
+    options = {
+        '0': option_0,
+        '1': option_1,
+        '2': option_2,
+        '3': option_3,
+        '4': option_4,
+        '5': top_5_news,
+        '6': top_5_categories,
+    }
+
     while True:
         selection = input(" ".join(input_messages))
 
@@ -64,7 +73,5 @@ def analyzer_menu():
         if selection == '7':
             print('Encerrando script')
             break
-        if(int(selection) % 2 == 0):
-            return option_even(selection)
         else:
-            return option_odd(selection)
+            return options[selection]()
