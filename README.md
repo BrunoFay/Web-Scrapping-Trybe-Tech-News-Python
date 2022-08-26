@@ -18,10 +18,8 @@ The news to be scraped will be available on the _Trybe Blog_: https://blog.betry
 
   <strong>MongoDB</strong>
 
-  To carry out this project, we will use a database called `tech_news`.
+  To carry out this project, use a database called `tech_news`.
   News will be stored in a collection called `news`.
-  There are already some functions ready in the `tech_news/database.py` file that will help you in the development.
-  Do not change the functions of this file; changes to it will not be performed in the auto-evaluator.
 
   Run MongoDB via Docker:
   <code>docker-compose up -d mongodb</code> in the terminal.
@@ -95,11 +93,9 @@ As notícias a serem raspadas estarão disponíveis no _Blog da Trybe_: https://
 
   <strong>MongoDB</strong>
 
-  Para a realização deste projeto, utilizaremos um banco de dados chamado `tech_news`.
+  Para a realização deste projeto, utilize o banco de dados chamado `tech_news`.
   As notícias serão armazenadas em uma coleção chamada `news`.
-  Já existem algumas funções prontas no arquivo `tech_news/database.py` que te auxiliarão no desenvolvimento.
-  Não altere as funções deste arquivo; mudanças nele não serão executadas no avaliador automático.
-
+  
   Rodar MongoDB via Docker:
   <code>docker-compose up -d mongodb</code> no terminal. 
   Para mais detalhes acerca do mongo com o docker, olhe o arquivo `docker-compose.yml`
